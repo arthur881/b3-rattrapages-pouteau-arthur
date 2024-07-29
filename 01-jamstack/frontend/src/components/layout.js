@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Link, graphql, useStaticQuery } from 'gatsby'
+import { Link } from 'gatsby'
 import "./layout.css"
 
 const Layout = ({ pageTitle, children }) => {
@@ -11,7 +11,7 @@ const Layout = ({ pageTitle, children }) => {
         <ul className='nav'>
           <li><Link to="/">Home</Link></li>
           <li><Link to="/products/">Products</Link></li>
-          <li><Link to="/contact/">Contact</Link></li>
+          <li><Link to="/contactUs/">Contact</Link></li>
         </ul>
       </header>
       <main>
