@@ -3,36 +3,39 @@ import * as React from 'react'
 import Layout from '../components/layout'
 
 const contactUsPage = ({ data }) => {
-    function handleSubmit(event) {
-        document.getElementById('commentForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(this);
-            const commentData = Object.fromEntries(formData.entries());
-          
-            fetch('http://localhost:1337/api/comment', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(commentData),
-            })
-            .then(response => response.json())
-            .then(data => {
-              console.log('Success:', data);
-              // Rediriger vers une page de succès ou simplement fermer le formulaire
-            })
-            .catch((error) => {
-              console.error('Error:', error);
-            });
-          });
-    }
+    const handleSubmit = async (event) => {
+        event.preventDefault();
 
+        // Récupérer les valeurs du formulaire
+        const name = event.target.elements.name.value;
+        const comment = event.target.elements.comment.value;
+        const date = new Date().toISOString();
+
+        // Créer un objet avec les données du formulaire
+        const commentData = { name, comment, date };
+
+        try {
+            const response = await fetch(process.env.STRAPI_API_URL+'/api/comment', { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(commentData),
+        });
+
+        console.log(response);
+    } catch (error) {
+        console.error(error);
+    };
+
+    }
+    
     return (
         <Layout pageTitle="Contact">
+            <h2>Laissez nous votre avis</h2>
             <form id="commentForm" onSubmit={handleSubmit}>
-                <input type="text" placeholder="Votre nom" required></input>
-                <textarea placeholder="Votre avis ici..." required></textarea>
+                <input type="text" name="name" placeholder="Votre nom" required></input>
+                <textarea name="comment" placeholder="Votre avis ici..." required></textarea>
                 <button type="submit">Envoyer</button>
             </form>
         </Layout>
