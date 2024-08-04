@@ -1,15 +1,30 @@
+let wpHeight = window.innerHeight;
+let wpWidth = window.innerWidth;
+
 let bricks = [];
 let cols;
 let rows;
 let size = 20;
 let offset = 4;
 
-let wpHeight = window.innerHeight;
-let wpWidth = window.innerWidth;
+let rgbaColor = {
+  color: "rgb(255,0,255)"
+}
 
 function setup() {
   createCanvas(wpHeight, wpWidth);
-  //createCanvas(400, 400);
+  
+  let gui = new dat.GUI();
+  let guiNewColor = gui.addColor(rgbaColor, "color");
+  
+  guiNewColor.onChange(function(value) {
+    let newColor = color(value);
+    for (let i=0 ; i<cols ; i++) {
+      for (let j=0 ; j<rows ; j++) {
+        bricks[i][j].changeColor(newColor);
+      }
+    }
+  });
   rectMode(CENTER);
   angleMode(DEGREES);
 
